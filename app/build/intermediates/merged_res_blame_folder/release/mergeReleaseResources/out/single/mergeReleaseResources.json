@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "fr.niavlys.dev.lpvperso.app-release-48:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "fr.niavlys.dev.lpvperso.app-main-49:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "fr.niavlys.dev.lpvperso.app-release-48:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "fr.niavlys.dev.lpvperso.app-main-49:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "fr.niavlys.dev.lpvperso.app-release-48:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "fr.niavlys.dev.lpvperso.app-main-49:/mipmap-anydpi-v26/ic_launcher.xml"
+    }
+]

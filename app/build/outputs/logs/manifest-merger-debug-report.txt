@@ -1,9 +1,9 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-19:12
-INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-19:12
-INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-19:12
-INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-19:12
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-21:12
+INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:1-21:12
 MERGED from [androidx.compose.material3:material3-android:1.3.2] /home/jupiter/.gradle/caches/8.14/transforms/75c1ee4a6c347f5db7919dfe907dd56d/transformed/material3-release/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.compose.material:material-android:1.8.1] /home/jupiter/.gradle/caches/8.14/transforms/1361c12e276630760cb4f3b04f84ba41/transformed/material-release/AndroidManifest.xml:2:1-7:12
 MERGED from [androidx.compose.animation:animation-core-android:1.8.1] /home/jupiter/.gradle/caches/8.14/transforms/88c6fdfeb0c52719739c52d0effd34d7/transformed/animation-core-release/AndroidManifest.xml:2:1-7:12
@@ -65,8 +65,8 @@ MERGED from [androidx.interpolator:interpolator:1.0.0] /home/jupiter/.gradle/cac
 	xmlns:android
 		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:2:11-69
 application
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:3:5-18:19
-INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:3:5-18:19
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:3:5-20:19
+INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:3:5-20:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.8.1] /home/jupiter/.gradle/caches/8.14/transforms/0f0d9ebcf9bef625669a93f959500121/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.compose.ui:ui-tooling-android:1.8.1] /home/jupiter/.gradle/caches/8.14/transforms/0f0d9ebcf9bef625669a93f959500121/transformed/ui-tooling-release/AndroidManifest.xml:22:5-26:19
 MERGED from [androidx.emoji2:emoji2:1.4.0] /home/jupiter/.gradle/caches/8.14/transforms/2302f7aa4923d1b338435d051d3c311a/transformed/emoji2-1.4.0/AndroidManifest.xml:23:5-33:19
@@ -88,33 +88,37 @@ MERGED from [androidx.startup:startup-runtime:1.1.1] /home/jupiter/.gradle/cache
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.13.1] /home/jupiter/.gradle/caches/8.14/transforms/116d318ea64a355df8d5a9c5277a2e8b/transformed/core-1.13.1/AndroidManifest.xml:28:18-86
 	android:supportsRtl
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:7:9-35
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:9:9-35
 	android:label
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:6:9-41
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:7:9-41
+	android:roundIcon
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:8:9-54
+	android:icon
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:6:9-43
 	android:allowBackup
 		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:5:9-35
 	android:theme
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:8:9-46
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:10:9-46
 	android:name
 		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:4:9-39
 activity#fr.niavlys.dev.lpvperso.MainActivity
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:9:9-17:20
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:11:9-19:20
 	android:exported
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:11:13-36
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:13:13-36
 	android:theme
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:12:13-50
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:14:13-50
 	android:name
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:10:13-41
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:12:13-41
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:13:13-16:29
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:15:13-18:29
 action#android.intent.action.MAIN
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:14:17-69
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:16:17-69
 	android:name
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:14:25-66
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:16:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:15:17-77
+ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:17:17-77
 	android:name
-		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:15:27-74
+		ADDED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml:17:27-74
 uses-sdk
 INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from /home/jupiter/Documents/Sylvain/Coding/Web/LPVP/app/src/main/AndroidManifest.xml

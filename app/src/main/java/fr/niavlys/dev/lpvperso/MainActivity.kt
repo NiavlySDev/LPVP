@@ -10,6 +10,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
@@ -30,6 +31,8 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Inventory2
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.Settings
@@ -43,6 +46,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -183,8 +187,10 @@ fun StockScreen(stock: List<StockItemEntity>, viewModel: LpvViewModel) {
     var unitPrice by remember { mutableStateOf("") }
     var bottleType by remember { mutableStateOf("") }
     Section {
-        CardBlock {
-            Text("Nouvel article", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Ajouter un article",
+            subtitle = "Base, nicotine, arome, fiole ou autre",
+        ) {
             OutlinedTextField(name, { name = it }, label = { Text("Nom") }, modifier = Modifier.fillMaxWidth())
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
                 OutlinedTextField(category, { category = it }, label = { Text("Categorie") }, modifier = Modifier.weight(1f))
@@ -233,10 +239,16 @@ fun StockScreen(stock: List<StockItemEntity>, viewModel: LpvViewModel) {
                 Text("Ajouter")
             }
         }
+        Text("Stock actuel", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1f),
         ) {
+            if (stock.isEmpty()) {
+                item {
+                    EmptyCard("Aucun article en stock. Deplie la carte d'ajout pour creer ta base, nicotine, aromes et fioles.")
+                }
+            }
             items(stock) { item ->
                 var quickQuantity by remember(item.id) { mutableStateOf("") }
                 CardBlock {
@@ -291,8 +303,10 @@ fun RecipesScreen(stock: List<StockItemEntity>, recipes: List<RecipeEntity>, vie
     val selectedAroma = stock.firstOrNull { it.id == selectedAromaId }
     val neededAromaBottles = bottleCount(aromaMl.toDoubleOrNull() ?: 0.0, selectedAroma?.bottleVolumeMl)
     Section {
-        CardBlock {
-            Text("Nouvelle recette", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Nouvelle recette",
+            subtitle = "Base + nicotine + arome + fiole finale",
+        ) {
             OutlinedTextField(name, { name = it }, label = { Text("Nom de la recette") }, modifier = Modifier.fillMaxWidth())
             if (stock.isEmpty()) {
                 Text("Ajoute d'abord des articles dans le stock pour pouvoir composer une recette.")
@@ -333,10 +347,16 @@ fun RecipesScreen(stock: List<StockItemEntity>, recipes: List<RecipeEntity>, vie
                 Text("Sauvegarder")
             }
         }
+        Text("Recettes sauvegardees", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1f),
         ) {
+            if (recipes.isEmpty()) {
+                item {
+                    EmptyCard("Aucune recette. Cree d'abord tes articles dans Stock, puis ajoute une recette ici.")
+                }
+            }
             items(recipes) { recipe ->
                 CardBlock {
                     Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
@@ -359,41 +379,42 @@ fun RecipesScreen(stock: List<StockItemEntity>, recipes: List<RecipeEntity>, vie
 @Composable
 fun OrdersScreen(stock: List<StockItemEntity>, orders: List<fr.niavlys.dev.lpvperso.data.OrderWithItems>, viewModel: LpvViewModel) {
     val quantities = remember(stock) { mutableStateMapOf<Long, String>() }
-    var formOpen by remember { mutableStateOf(false) }
     Section {
-        CardBlock {
-            Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                Text("Nouvelle commande LPV", style = MaterialTheme.typography.titleMedium)
-                OutlinedButton({ formOpen = !formOpen }) { Text(if (formOpen) "Replier" else "Deplier") }
+        CollapsibleCard(
+            title = "Nouvelle commande LPV",
+            subtitle = "Saisis les bouteilles ou packs commandes",
+        ) {
+            LazyColumn(
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.heightIn(max = 320.dp),
+            ) {
+                items(stock) { item ->
+                    OutlinedTextField(
+                        value = quantities[item.id].orEmpty(),
+                        onValueChange = { quantities[item.id] = it },
+                        label = { Text("${item.name}: nombre de ${orderUnitLabel(item)}") },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
             }
-            if (formOpen) {
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.heightIn(max = 320.dp),
-                ) {
-                    items(stock) { item ->
-                        OutlinedTextField(
-                            value = quantities[item.id].orEmpty(),
-                            onValueChange = { quantities[item.id] = it },
-                            label = { Text("${item.name}: nombre de ${orderUnitLabel(item)}") },
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                }
-                Button(onClick = {
-                    viewModel.createOrder(quantities.map { it.key to (it.value.toDoubleOrNull() ?: 0.0) })
-                    quantities.clear()
-                    formOpen = false
-                }) {
-                    Icon(Icons.Default.Add, null)
-                    Text("Enregistrer commande")
-                }
+            Button(onClick = {
+                viewModel.createOrder(quantities.map { it.key to (it.value.toDoubleOrNull() ?: 0.0) })
+                quantities.clear()
+            }) {
+                Icon(Icons.Default.Add, null)
+                Text("Enregistrer commande")
             }
         }
+        Text("Historique", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.weight(1f),
         ) {
+            if (orders.isEmpty()) {
+                item {
+                    EmptyCard("Aucune commande. Deplie la carte de commande quand tu veux ajouter un achat LPV.")
+                }
+            }
             items(orders) { order ->
                 CardBlock {
                     Text("Commande du ${date(order.order.orderedAt)}", style = MaterialTheme.typography.titleMedium)
@@ -428,8 +449,11 @@ fun CalculatorScreen(
     var result by remember { mutableStateOf("") }
     val selectedBottle = stock.firstOrNull { it.id == selectedBottleId }
     Section(Modifier.verticalScroll(rememberScrollState())) {
-        CardBlock {
-            Text("Calculateur de prix", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Calculer un melange",
+            subtitle = "Applique une recette ou remplis les quantites",
+            initiallyExpanded = true,
+        ) {
             RecipePicker(recipes, selectedRecipeId) { id ->
                 selectedRecipeId = id
                 val recipe = recipes.firstOrNull { it.id == id } ?: return@RecipePicker
@@ -494,7 +518,12 @@ fun CalculatorScreen(
                     Text("Copier")
                 }
             }
-            if (result.isNotBlank()) Text(result)
+        }
+        if (result.isNotBlank()) {
+            CardBlock {
+                Text("Resultat", style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(result)
+            }
         }
     }
 }
@@ -510,13 +539,17 @@ fun SettingsScreen(app: AppSettingsEntity, price: PriceSettingsEntity, viewModel
     var fees by remember(price.defaultFees) { mutableStateOf(price.defaultFees.toString()) }
     var importJson by remember { mutableStateOf("") }
     Section(Modifier.verticalScroll(rememberScrollState())) {
-        CardBlock {
-            Text("Apparence", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Apparence",
+            subtitle = "Theme clair, sombre ou automatique",
+        ) {
             ThemePicker(theme, { theme = it })
             Button({ viewModel.saveAppSettings(app.copy(themeMode = theme, diyCalculatorUrl = url)) }) { Text("Sauvegarder theme") }
         }
-        CardBlock {
-            Text("Calculateur DIY LPV", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Calculateur DIY LPV",
+            subtitle = "Lien externe pour tes calculs LPV",
+        ) {
             OutlinedTextField(url, { url = it }, label = { Text("Lien global") }, modifier = Modifier.fillMaxWidth())
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Button({ viewModel.saveAppSettings(app.copy(themeMode = theme, diyCalculatorUrl = url)) }) { Text("Sauvegarder") }
@@ -526,8 +559,10 @@ fun SettingsScreen(app: AppSettingsEntity, price: PriceSettingsEntity, viewModel
                 }
             }
         }
-        CardBlock {
-            Text("Prix par defaut", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Prix par defaut",
+            subtitle = "Base, nicotine, fiole et frais",
+        ) {
             OutlinedTextField(base, { base = it }, label = { Text("Base prix/ml") }, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(nico, { nico = it }, label = { Text("Nicotine prix/ml") }, modifier = Modifier.fillMaxWidth())
             OutlinedTextField(bottle, { bottle = it }, label = { Text("Fiole") }, modifier = Modifier.fillMaxWidth())
@@ -544,8 +579,10 @@ fun SettingsScreen(app: AppSettingsEntity, price: PriceSettingsEntity, viewModel
                 )
             }) { Text("Sauvegarder prix") }
         }
-        CardBlock {
-            Text("Sauvegarde", style = MaterialTheme.typography.titleMedium)
+        CollapsibleCard(
+            title = "Sauvegarde",
+            subtitle = "Exporter ou importer tes donnees",
+        ) {
             OutlinedButton({
                 viewModel.exportJson { copy(context, it) }
             }) {
@@ -691,12 +728,47 @@ fun RecipePicker(
 }
 
 @Composable
+fun CollapsibleCard(
+    title: String,
+    subtitle: String,
+    initiallyExpanded: Boolean = false,
+    content: @Composable ColumnScope.() -> Unit,
+) {
+    var expanded by remember { mutableStateOf(initiallyExpanded) }
+    CardBlock {
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+            Column(Modifier.weight(1f)) {
+                Text(title, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+                Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
+            IconButton({ expanded = !expanded }) {
+                Icon(
+                    imageVector = if (expanded) Icons.Default.KeyboardArrowUp else Icons.Default.KeyboardArrowDown,
+                    contentDescription = if (expanded) "Replier" else "Deplier",
+                )
+            }
+        }
+        AnimatedVisibility(expanded) {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp), content = content)
+        }
+    }
+}
+
+@Composable
+fun EmptyCard(text: String) {
+    CardBlock {
+        Text(text, color = MaterialTheme.colorScheme.onSurfaceVariant)
+    }
+}
+
+@Composable
 fun CardBlock(content: @Composable ColumnScope.() -> Unit) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         modifier = Modifier.fillMaxWidth(),
     ) {
-        Column(Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp), content = content)
+        Column(Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(10.dp), content = content)
     }
 }
 

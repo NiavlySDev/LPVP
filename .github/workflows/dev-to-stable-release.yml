@@ -29,10 +29,11 @@ jobs:
       - name: Setup Android SDK
         uses: android-actions/setup-android@v3
 
-      - name: Test and build APK
+      - name: Test and build release APK
         run: |
           chmod +x ./gradlew
-          ./gradlew testDebugUnitTest assembleDebug --no-daemon
+          ./gradlew testDebugUnitTest assembleRelease --no-daemon
+          cp app/build/outputs/apk/release/app-release.apk app/build/outputs/apk/release/LPVP-release.apk
 
       - name: Push dev to stable
         env:
@@ -55,6 +56,6 @@ jobs:
           COMMIT_NAME="$(git log -1 --pretty=%s)"
           TAG="release-${GITHUB_SHA::7}"
           gh release create "$TAG" \
-            app/build/outputs/apk/debug/app-debug.apk \
+            app/build/outputs/apk/release/LPVP-release.apk \
             --title "$COMMIT_NAME" \
             --notes "Build automatique depuis dev: $GITHUB_SHA"
