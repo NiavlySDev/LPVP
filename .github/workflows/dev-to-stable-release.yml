@@ -18,6 +18,7 @@ jobs:
         with:
           fetch-depth: 0
           ref: dev
+          token: ${{ secrets.STABLE_PUSH_TOKEN }}
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -34,15 +35,22 @@ jobs:
           ./gradlew testDebugUnitTest assembleDebug --no-daemon
 
       - name: Push dev to stable
+        env:
+          STABLE_PUSH_TOKEN: ${{ secrets.STABLE_PUSH_TOKEN }}
         run: |
+          if [ -z "$STABLE_PUSH_TOKEN" ]; then
+            echo "STABLE_PUSH_TOKEN is missing. Add it in GitHub repository secrets."
+            exit 1
+          fi
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+          git remote set-url origin https://x-access-token:${STABLE_PUSH_TOKEN}@github.com/NiavlySDev/LPVP.git
           git fetch origin stable
           git push origin HEAD:stable --force-with-lease
 
       - name: Create release
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.STABLE_PUSH_TOKEN }}
         run: |
           COMMIT_NAME="$(git log -1 --pretty=%s)"
           TAG="release-${GITHUB_SHA::7}"
