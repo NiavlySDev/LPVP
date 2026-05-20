@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="fr.niavlys.dev.lpvperso.domain.StockRulesTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-05-20T09:30:26.697Z" hostname="administrator-OptiPlex-SFF-7010" time="0.011">
+  <properties/>
+  <testcase name="allowsConsumptionWhenEveryLineHasEnoughStock" classname="fr.niavlys.dev.lpvperso.domain.StockRulesTest" time="0.01"/>
+  <testcase name="blocksConsumptionWhenOneLineIsMissing" classname="fr.niavlys.dev.lpvperso.domain.StockRulesTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
